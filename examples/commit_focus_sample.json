@@ -1,0 +1,128 @@
+{
+  "mode": "commit-focus",
+  "title": "PR Commit Focus Heatmap — Basalt Wave 3 (`e5901909 -> 1f818f7a`)",
+  "subtitle": "7 Bitwise-Exact Commits on Blackwell (sm_120) • RTX PRO 5000 (+4.9% @ 64K) & Spilled RTX 5070 Ti (+34.6% @ 16K)",
+  "footer": "Highlighted Cyan/Gold nodes indicate exact GPU hierarchy bottlenecks targeted by this PR • 100% Bitwise Parity Verified",
+  "focus_targets": [
+    "host_pcie",
+    "global_vram",
+    "smem_l1",
+    "warp_simt",
+    "compute_cores"
+  ],
+  "focus_banner": "PR TARGETS: [1] Async PCIe Overlap  [2] SMEM Row-Sweep Locality  [4] 4-Stage KV + Bank-Free Router  [6] Ring Modulo Hoist  [7] 16-Warp Q8 TMA",
+  "left_label": "BEFORE (PR #579 Baseline)",
+  "right_label": "AFTER (Wave 3 `1f818f7a`)",
+  "left_summary": "PRO 5000 32K: 12,568 t/s • 5070Ti Spilled 16K: 5,286 t/s",
+  "right_summary": "PRO 5000 32K: 12,987 t/s (+3.3%) • 5070Ti 16K: 7,114 t/s (+34.6%)",
+  "left": {
+    "host_pcie": {
+      "efficiency_pct": 18.0,
+      "time_weight_pct": 45.8,
+      "headline": "0.0% HtoD Overlap (1,357 ms Stall)",
+      "detail": "Synchronous layer staging + all-or-nothing PCIe copy on partial promo",
+      "tag": "[Spilled 5070Ti]",
+      "diagnosis": "1,357 ms synchronous PCIe HtoD stall (0% overlap) + redundant RAM copies",
+      "action": "h2d_stream_ + exp_done/h2d_done lookahead + DtoD for promoted slots (+34.6% E2E)"
+    },
+    "global_vram": {
+      "efficiency_pct": 48.0,
+      "time_weight_pct": 8.0,
+      "headline": "ctrl_up_blend: 8-Row Stride (646 GB/s)",
+      "detail": "Each warp strided 8 rows × 9.2 KB apart; scalar moe_cpu_merge (2.67 us)",
+      "tag": "[Row-Stride]",
+      "diagnosis": "8-row strided warp accesses in ctrl_up_blend + scalar PCIe merge",
+      "action": "Stage gate/forget in 35.8 KiB SMEM for 1-row 256B sweep (2.31x) + float4 PDL"
+    },
+    "l2_cache": {
+      "efficiency_pct": 74.0,
+      "time_weight_pct": 15.0,
+      "headline": "Sequential Head Order in FlashAttn",
+      "detail": "Long-history causal CTAs scheduled late -> 32K tail wave stragglers",
+      "tag": "[Tail Wave]"
+    },
+    "smem_l1": {
+      "efficiency_pct": 52.0,
+      "time_weight_pct": 18.0,
+      "headline": "2-Stage Far KV • Sync Router (288 Bars)",
+      "detail": "2 barriers/tile in attn_prompt; naive FD_K=16 outer loop in router",
+      "tag": "[Pipeline Stall]",
+      "diagnosis": "2-barrier KV loop & 288-barrier synchronous router GEMM stall warps",
+      "action": "1-barrier 4-stage cp.async KV ring + 3-stage bank-free LDS.128 router (5.56x)"
+    },
+    "regs_occ": {
+      "efficiency_pct": 82.0,
+      "time_weight_pct": 14.0,
+      "headline": "2-CTA 64×64 Q8 TMA (168 Regs, 0 Spill)",
+      "detail": "Good for narrow shapes, but reloads activations 2x on [8664×2304]",
+      "tag": "[Tile Width]"
+    },
+    "warp_simt": {
+      "efficiency_pct": 58.0,
+      "time_weight_pct": 15.0,
+      "headline": "Inner-Loop int64 % cap + Per-Key Mask",
+      "detail": "64-bit modulo & fresh/ok branches inside every 16B cp.async piece",
+      "tag": "[ALU/Branch]",
+      "diagnosis": "Per-piece int64 % cap division & mask branches inside FlashAttn inner loop",
+      "action": "Hoist uint32 slot wrap to tile header + branchless whole-tile far softmax (+26.1%)"
+    },
+    "compute_cores": {
+      "efficiency_pct": 79.0,
+      "time_weight_pct": 30.0,
+      "headline": "Q8 TMA: 232 TOP/s • Router: 4.4 TFLOP/s",
+      "detail": "Attention 32K: 130.5 TFLOP/s; Q8 quantizer scalar warp loop (40.1 us)",
+      "tag": "[TC/SIMT]"
+    }
+  },
+  "right": {
+    "host_pcie": {
+      "efficiency_pct": 86.0,
+      "time_weight_pct": 27.8,
+      "headline": "53.7% HtoD Hidden (-735 ms Stall!)",
+      "detail": "0-VRAM h2d_stream_ lookahead + DtoD (447 GB/s) + coalesced HtoD",
+      "tag": "[+34.6% E2E]"
+    },
+    "global_vram": {
+      "efficiency_pct": 94.0,
+      "time_weight_pct": 3.5,
+      "headline": "1-Row 256B Sweep (1,493 GB/s, 2.31x!)",
+      "detail": "SMEM-staged ctrl_up_blend (73.2 us) + float4/PDL merge (1.25 us, 2.14x)",
+      "tag": "[2.31x Faster]"
+    },
+    "l2_cache": {
+      "efficiency_pct": 90.0,
+      "time_weight_pct": 12.0,
+      "headline": "L2-Aware LPT CTA Scheduling",
+      "detail": "Longest-history query tiles launched first across KV heads",
+      "tag": "[Balanced]"
+    },
+    "smem_l1": {
+      "efficiency_pct": 91.0,
+      "time_weight_pct": 13.0,
+      "headline": "1-Barrier 4-Stage KV + 3-Stage Router",
+      "detail": "68 KiB union Smem 4-stage cp.async; bank-free LDS.128 router (5.56x!)",
+      "tag": "[5.56x Router]"
+    },
+    "regs_occ": {
+      "efficiency_pct": 93.0,
+      "time_weight_pct": 13.0,
+      "headline": "16-Warp 128×128 TMA (128 Regs = 100% RF)",
+      "detail": "4 warps/sub-partition on sm_120 + PDL NPRE=1 weight preload on MMVQ",
+      "tag": "[0 B Spill]"
+    },
+    "warp_simt": {
+      "efficiency_pct": 94.0,
+      "time_weight_pct": 12.0,
+      "headline": "Tile-Hoisted uint32 Slot + Branchless Far",
+      "detail": "Zero inner-loop modulo; branchless whole-tile softmax on far prefix",
+      "tag": "[+26.1% @ 32K]"
+    },
+    "compute_cores": {
+      "efficiency_pct": 91.0,
+      "time_weight_pct": 28.0,
+      "headline": "Q8 TMA: 249.2 TOP/s • Attn: 164.5 TFLOP/s",
+      "detail": "Router: 97.2 us (24.5 TFLOP/s FP32) • vec4 Q8 quantizer: 11.8 us (3.4x)",
+      "tag": "[Bitwise Exact]"
+    }
+  }
+}

@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 1120" width="1520" height="1120" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+<defs>
+  <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#090d16"/>
+    <stop offset="100%" stop-color="#0f172a"/>
+  </linearGradient>
+  <filter id="focusGlow" x="-4%" y="-10%" width="108%" height="120%">
+    <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#38bdf8" flood-opacity="0.45"/>
+  </filter>
+</defs>
+<rect width="1520" height="1120" rx="16" fill="url(#bgGrad)" stroke="#1e293b" stroke-width="2"/>
+<text x="36" y="44" fill="#f8fafc" font-size="23" font-weight="700">Basalt (Inkling 2 Mini) — CUDA Hierarchy Efficiency: Prefill vs Decode</text>
+<text x="36" y="70" fill="#94a3b8" font-size="14">NVIDIA RTX PRO 5000 72GB GDDR7 (sm_120, 110 SMs, 300W) | CUDA 13.4 | Identifying Regime Bottlenecks</text>
+<rect x="36" y="84" width="1448" height="32" rx="8" fill="#0c2338" stroke="#38bdf8" stroke-width="1.2"/><text x="52" y="105" fill="#7dd3fc" font-size="13.5" font-weight="600">Regime Contrast: Prefill is Tensor-Core &amp; SMEM-Pipeline Bound • Decode is Weight-VRAM, Launch-Tail &amp; KV-Coalescing Bound</text>
+<text x="44" y="148" fill="#cbd5e1" font-size="14" font-weight="700">CUDA HARDWARE HIERARCHY</text>
+<text x="384" y="140" fill="#e2e8f0" font-size="15" font-weight="700">PREFILL (pp16384, Chunk T=4096)</text>
+<text x="384" y="157" fill="#94a3b8" font-size="12.5">14,121 tok/s • GEMM/Attn Share: 83.2% • Compute-Bound</text>
+<text x="948" y="140" fill="#e2e8f0" font-size="15" font-weight="700">DECODE (--spec 1 / --spec 8, T=1..8)</text>
+<text x="948" y="157" fill="#94a3b8" font-size="12.5">215 / 493 tok/s • Glue Share: 25–32% • BW &amp; Launch-Bound</text>
+<rect x="36" y="166" width="320" height="96" rx="10" fill="#131c2e" stroke="#334155" stroke-width="1.2"/>
+<text x="52" y="200" fill="#f1f5f9" font-size="15" font-weight="700">1. Host RAM &amp; PCIe Bus</text>
+<text x="52" y="222" fill="#94a3b8" font-size="12.5">Pinned DMA / HtoD-DtoH Overlap</text>
+<rect x="376" y="166" width="544" height="96" rx="10" fill="#162032" stroke="#26334d" stroke-width="1.1"/>
+<rect x="392" y="180" width="394" height="12" rx="6" fill="#090d16"/>
+<text x="904" y="191" text-anchor="end" fill="#94a3b8" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">N/A</text>
+<text x="392" y="218" fill="#f8fafc" font-size="14" font-weight="700">VRAM-Resident (0 B PCIe)</text>
+<text x="904" y="218" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[nsys]</text>
+<text x="392" y="242" fill="#cbd5e1" font-size="12.2">17.0 GiB weights resident (Spilled 5070Ti: 53.7% HtoD hidden)</text>
+<rect x="940" y="166" width="544" height="96" rx="10" fill="#162032" stroke="#26334d" stroke-width="1.1"/>
+<rect x="956" y="180" width="394" height="12" rx="6" fill="#090d16"/>
+<text x="1468" y="191" text-anchor="end" fill="#94a3b8" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">N/A</text>
+<text x="956" y="218" fill="#f8fafc" font-size="14" font-weight="700">VRAM-Resident (0 B PCIe)</text>
+<text x="1468" y="218" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[nsys]</text>
+<text x="956" y="242" fill="#cbd5e1" font-size="12.2">Spilled mode: 9KB DtoH overlapped w/ router + float4 SYS merge</text>
+<line x1="196" y1="262" x2="196" y2="274" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="274" width="320" height="96" rx="10" fill="#112236" stroke="#38bdf8" stroke-width="2.2" filter="url(#focusGlow)"/>
+<text x="52" y="308" fill="#f1f5f9" font-size="15" font-weight="700">2. Device Global VRAM</text>
+<text x="52" y="330" fill="#94a3b8" font-size="12.5">DRAM BW / Coalescing / Alignment</text>
+<rect x="52" y="340" width="156" height="20" rx="5" fill="#090d16" stroke="#38bdf8" stroke-width="1"/><text x="61" y="354" fill="#38bdf8" font-size="10.5" font-weight="700">KEY REGIME DIFF</text>
+<rect x="376" y="274" width="544" height="96" rx="10" fill="#0c2924" stroke="#38bdf8" stroke-width="2.2"/>
+<rect x="392" y="288" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="288" width="358.5" height="12" rx="6" fill="#10b981"/>
+<text x="904" y="299" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">91% Eff</text>
+<text x="392" y="326" fill="#f8fafc" font-size="14" font-weight="700">Coalesced: 96% • Align: 128B SoA</text>
+<text x="904" y="326" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[SASS/nsys]</text>
+<text x="392" y="350" fill="#cbd5e1" font-size="12.2">TMA 2D + 4-lane 16B cp.async.cg • 1,340+ GB/s on norms/mix</text>
+<rect x="940" y="274" width="544" height="96" rx="10" fill="#31131b" stroke="#38bdf8" stroke-width="2.2"/>
+<rect x="956" y="288" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="288" width="212.8" height="12" rx="6" fill="#ef4444"/>
+<text x="1468" y="299" text-anchor="end" fill="#f87171" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">54% Eff</text>
+<text x="956" y="326" fill="#f8fafc" font-size="14" font-weight="700">q8_planes: 85% BW • NVFP4 AoS: 41% BW</text>
+<text x="1468" y="326" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Bottleneck]</text>
+<text x="956" y="350" fill="#cbd5e1" font-size="12.2">36B block_nvfp4 forces LDG.32 (549 GB/s); q8_planes hits 1.16 TB/s</text>
+<line x1="196" y1="370" x2="196" y2="382" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="382" width="320" height="96" rx="10" fill="#131c2e" stroke="#334155" stroke-width="1.2"/>
+<text x="52" y="416" fill="#f1f5f9" font-size="15" font-weight="700">3. L2 Cache &amp; Tile Locality</text>
+<text x="52" y="438" fill="#94a3b8" font-size="12.5">Hit Rate / 2D &amp; LPT Swizzle</text>
+<rect x="376" y="382" width="544" height="96" rx="10" fill="#0c2924" stroke="#26334d" stroke-width="1.1"/>
+<rect x="392" y="396" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="396" width="346.7" height="12" rx="6" fill="#10b981"/>
+<text x="904" y="407" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">88% Eff</text>
+<text x="392" y="434" fill="#f8fafc" font-size="14" font-weight="700">2D Swizzle (G=8) + LPT KV Order</text>
+<text x="904" y="434" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[ABBA]</text>
+<text x="392" y="458" fill="#cbd5e1" font-size="12.2">ctrl_down 589KB 100% L2-hit; 32K FlashAttn LPT +26.1%</text>
+<rect x="940" y="382" width="544" height="96" rx="10" fill="#0c2924" stroke="#26334d" stroke-width="1.1"/>
+<rect x="956" y="396" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="396" width="323.1" height="12" rx="6" fill="#10b981"/>
+<text x="1468" y="407" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">82% Eff</text>
+<text x="956" y="434" fill="#f8fafc" font-size="14" font-weight="700">Inter-Kernel Act Warm in L2</text>
+<text x="1468" y="434" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Arch]</text>
+<text x="956" y="458" fill="#cbd5e1" font-size="12.2">9–36 KB token activations stay L2-resident across layer visits</text>
+<line x1="196" y1="478" x2="196" y2="490" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="490" width="320" height="96" rx="10" fill="#112236" stroke="#38bdf8" stroke-width="2.2" filter="url(#focusGlow)"/>
+<text x="52" y="524" fill="#f1f5f9" font-size="15" font-weight="700">4. L1 Cache &amp; Shared Memory</text>
+<text x="52" y="546" fill="#94a3b8" font-size="12.5">Discrete Carveout / Bank-Free %</text>
+<rect x="52" y="556" width="156" height="20" rx="5" fill="#090d16" stroke="#38bdf8" stroke-width="1"/><text x="61" y="570" fill="#38bdf8" font-size="10.5" font-weight="700">KEY REGIME DIFF</text>
+<rect x="376" y="490" width="544" height="96" rx="10" fill="#0c2924" stroke="#38bdf8" stroke-width="2.2"/>
+<rect x="392" y="504" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="504" width="354.6" height="12" rx="6" fill="#10b981"/>
+<text x="904" y="515" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">90% Eff</text>
+<text x="392" y="542" fill="#f8fafc" font-size="14" font-weight="700">Bank-Free: ~100% • 128B/64B XOR</text>
+<text x="904" y="542" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[SASS]</text>
+<text x="392" y="566" fill="#cbd5e1" font-size="12.2">100 KiB carveout (28 KiB L1 safe via TMA/.cg) • 4-stage far KV</text>
+<rect x="940" y="490" width="544" height="96" rx="10" fill="#2b2110" stroke="#38bdf8" stroke-width="2.2"/>
+<rect x="956" y="504" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="504" width="307.3" height="12" rx="6" fill="#f59e0b"/>
+<text x="1468" y="515" text-anchor="end" fill="#fbbf24" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">78% Eff</text>
+<text x="956" y="542" fill="#f8fafc" font-size="14" font-weight="700">Low SMEM (0–49 KiB) • L1=64–128 KiB</text>
+<text x="1468" y="542" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[SASS]</text>
+<text x="956" y="566" fill="#cbd5e1" font-size="12.2">attn.cu cp.async V cached in L1; MMVQ uses warp shuffles</text>
+<line x1="196" y1="586" x2="196" y2="598" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="598" width="320" height="96" rx="10" fill="#112236" stroke="#38bdf8" stroke-width="2.2" filter="url(#focusGlow)"/>
+<text x="52" y="632" fill="#f1f5f9" font-size="15" font-weight="700">5. Register File &amp; Occupancy</text>
+<text x="52" y="654" fill="#94a3b8" font-size="12.5">Regs/Thread / Spills / Launch Eff</text>
+<rect x="52" y="664" width="156" height="20" rx="5" fill="#090d16" stroke="#38bdf8" stroke-width="1"/><text x="61" y="678" fill="#38bdf8" font-size="10.5" font-weight="700">KEY REGIME DIFF</text>
+<rect x="376" y="598" width="544" height="96" rx="10" fill="#0c2924" stroke="#38bdf8" stroke-width="2.2"/>
+<rect x="392" y="612" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="612" width="350.7" height="12" rx="6" fill="#10b981"/>
+<text x="904" y="623" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">89% Eff</text>
+<text x="392" y="650" fill="#f8fafc" font-size="14" font-weight="700">128–252 Regs • 0 B Spill • 1–2 CTA/SM</text>
+<text x="904" y="650" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[res-usage]</text>
+<text x="392" y="674" fill="#cbd5e1" font-size="12.2">q8_gemm: 512 thr × 128 regs = 100% RF • Launches: 37.4k -&gt; 9.8k</text>
+<rect x="940" y="598" width="544" height="96" rx="10" fill="#31131b" stroke="#38bdf8" stroke-width="2.2"/>
+<rect x="956" y="612" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="612" width="181.2" height="12" rx="6" fill="#ef4444"/>
+<text x="1468" y="623" text-anchor="end" fill="#f87171" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">46% Eff</text>
+<text x="956" y="650" fill="#f8fafc" font-size="14" font-weight="700">0 B Spill • Glue Storm: ~28% Time</text>
+<text x="1468" y="650" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Bottleneck]</text>
+<text x="956" y="674" fill="#cbd5e1" font-size="12.2">Multiple 3–6 us micro-kernels/visit create grid-drain bubbles</text>
+<line x1="196" y1="694" x2="196" y2="706" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="706" width="320" height="96" rx="10" fill="#112236" stroke="#38bdf8" stroke-width="2.2" filter="url(#focusGlow)"/>
+<text x="52" y="740" fill="#f1f5f9" font-size="15" font-weight="700">6. Warp SIMT &amp; Schedulers</text>
+<text x="52" y="762" fill="#94a3b8" font-size="12.5">Active Mask / Branchless vs if-else</text>
+<rect x="52" y="772" width="156" height="20" rx="5" fill="#090d16" stroke="#38bdf8" stroke-width="1"/><text x="61" y="786" fill="#38bdf8" font-size="10.5" font-weight="700">KEY REGIME DIFF</text>
+<rect x="376" y="706" width="544" height="96" rx="10" fill="#0c2924" stroke="#38bdf8" stroke-width="2.2"/>
+<rect x="392" y="720" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="720" width="366.4" height="12" rx="6" fill="#10b981"/>
+<text x="904" y="731" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">93% Eff</text>
+<text x="392" y="758" fill="#f8fafc" font-size="14" font-weight="700">SIMT Eff: ~95% • Tile-Hoisted Mask</text>
+<text x="904" y="758" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[SASS]</text>
+<text x="392" y="782" fill="#cbd5e1" font-size="12.2">0 inner-loop int64%cap • Branchless whole-tile causal softmax</text>
+<rect x="940" y="706" width="544" height="96" rx="10" fill="#2b2110" stroke="#38bdf8" stroke-width="2.2"/>
+<rect x="956" y="720" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="720" width="252.2" height="12" rx="6" fill="#f59e0b"/>
+<text x="1468" y="731" text-anchor="end" fill="#fbbf24" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">64% Eff</text>
+<text x="956" y="758" fill="#f8fafc" font-size="14" font-weight="700">432 PRMT LUT Ops in NVFP4 Split&lt;40&gt;</text>
+<text x="1468" y="758" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[SASS]</text>
+<text x="956" y="782" fill="#cbd5e1" font-size="12.2">Branchless dp4a in Q8, but FP4 nibble LUT burns SIMT ALU cycles</text>
+<line x1="196" y1="802" x2="196" y2="814" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="814" width="320" height="96" rx="10" fill="#131c2e" stroke="#334155" stroke-width="1.2"/>
+<text x="52" y="848" fill="#f1f5f9" font-size="15" font-weight="700">7. Tensor Cores, ALU &amp; SFU</text>
+<text x="52" y="870" fill="#94a3b8" font-size="12.5">Dtype &amp; M×N×K Tile / GEMM Eff %</text>
+<rect x="376" y="814" width="544" height="96" rx="10" fill="#0c2924" stroke="#26334d" stroke-width="1.1"/>
+<rect x="392" y="828" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="828" width="331.0" height="12" rx="6" fill="#10b981"/>
+<text x="904" y="839" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">84% Eff</text>
+<text x="392" y="866" fill="#f8fafc" font-size="14" font-weight="700">NVFP4 m16n8k64 • MXFP8/INT8 m16n8k32</text>
+<text x="904" y="866" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Microbench]</text>
+<text x="392" y="890" fill="#cbd5e1" font-size="12.2">Tiles 128×256 &amp; 128×128 • 249–404 TOP/s • 0 libm CALLs (MUFU)</text>
+<rect x="940" y="814" width="544" height="96" rx="10" fill="#31131b" stroke="#26334d" stroke-width="1.1"/>
+<rect x="956" y="828" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="828" width="149.7" height="12" rx="6" fill="#ef4444"/>
+<text x="1468" y="839" text-anchor="end" fill="#f87171" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">38% Eff</text>
+<text x="956" y="866" fill="#f8fafc" font-size="14" font-weight="700">T=1: SIMT dp4a/FFMA • T&gt;=4: m16n8k32</text>
+<text x="1468" y="866" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Expected @ T=1]</text>
+<text x="956" y="890" fill="#cbd5e1" font-size="12.2">M=1..3 underfills m16 Tensor Core rows; gated by weight DRAM BW</text>
+<rect x="36" y="930" width="1448" height="140" rx="10" fill="#131c2e" stroke="#334155" stroke-width="1.2"/>
+<text x="54" y="956" fill="#f87171" font-size="13.2" font-weight="700">AUTOMATED BOTTLENECK INFERENCE (Ranked by Time-Share × Efficiency Headroom):</text>
+<text x="54" y="980" fill="#e2e8f0" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">#1 [Decode | 2. Device Global VRAM] (54% eff, 48% wt): 36B AoS block_nvfp4 breaks 16B alignment in native_down_sub8&lt;40&gt; (41% DRAM BW). -&gt; Repack NVFP4 into 128B-aligned planar SoA to unlock LDG.128 (uint4).</text>
+<text x="54" y="1008" fill="#e2e8f0" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">#2 [Decode | 5. Register File &amp; Occupancy] (46% eff, 32% wt): 9 micro-kernels per visit (~3–6 us each) spend ~25–32% of Decode in launch/tail drain. -&gt; Mega-fuse (ctrl_down+up+blend) &amp; (post_attn+mix_norm) + expand ...</text>
+<text x="54" y="1036" fill="#e2e8f0" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">#3 [Decode | 6. Warp SIMT &amp; Schedulers] (64% eff, 24% wt): 432 PRMT byte-permutes in llama.cpp-style FP4 LUT dequantization. -&gt; Replace PRMT LUT with native sm_120a `cvt.rn.f16x2.e2m1x2` (`F2FP`).</text>
+<text x="36" y="1106" fill="#64748b" font-size="12">Green (&gt;=80%): Near Hardware Ceiling  •  Amber (55–79%): Tunable Headroom  •  Red (&lt;55%): Primary Bottleneck  •  Slate: Inactive</text>
+</svg>

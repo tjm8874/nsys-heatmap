@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nsys-heatmap"
+version = "0.1.0"
+description = "Zero-dependency 7-layer CUDA hardware efficiency analyzer, bottleneck inference engine, and GitHub PR heatmap generator from Nsight Systems (.sqlite), SASS, and Nsight Compute."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "tjm8874", email = "59977909+tjm8874@users.noreply.github.com" }
+]
+keywords = [
+  "cuda",
+  "nsight-systems",
+  "nsys",
+  "nsight-compute",
+  "sass",
+  "gpu",
+  "profiling",
+  "heatmap",
+  "blackwell",
+  "hopper",
+  "tensor-cores"
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: System :: Hardware",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/tjm8874/nsys-heatmap"
+Repository = "https://github.com/tjm8874/nsys-heatmap"
+Issues = "https://github.com/tjm8874/nsys-heatmap/issues"
+
+[project.scripts]
+nsys-heatmap = "nsys_heatmap.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

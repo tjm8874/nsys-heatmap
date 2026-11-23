@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 1120" width="1520" height="1120" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+<defs>
+  <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#090d16"/>
+    <stop offset="100%" stop-color="#0f172a"/>
+  </linearGradient>
+  <filter id="focusGlow" x="-4%" y="-10%" width="108%" height="120%">
+    <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#38bdf8" flood-opacity="0.45"/>
+  </filter>
+</defs>
+<rect width="1520" height="1120" rx="16" fill="url(#bgGrad)" stroke="#1e293b" stroke-width="2"/>
+<text x="36" y="44" fill="#f8fafc" font-size="23" font-weight="700">PR Commit Focus Heatmap — Basalt Wave 3 (`e5901909 -&gt; 1f818f7a`)</text>
+<text x="36" y="70" fill="#94a3b8" font-size="14">7 Bitwise-Exact Commits on Blackwell (sm_120) • RTX PRO 5000 (+4.9% @ 64K) &amp; Spilled RTX 5070 Ti (+34.6% @ 16K)</text>
+<rect x="36" y="84" width="1448" height="32" rx="8" fill="#271e0b" stroke="#f59e0b" stroke-width="1.2"/><text x="52" y="105" fill="#fcd34d" font-size="13.5" font-weight="600">PR TARGETS: [1] Async PCIe Overlap  [2] SMEM Row-Sweep Locality  [4] 4-Stage KV + Bank-Free Router  [6] Ring Modulo Hoist  [7] 16-Warp Q8 TMA</text>
+<text x="44" y="148" fill="#cbd5e1" font-size="14" font-weight="700">CUDA HARDWARE HIERARCHY</text>
+<text x="384" y="140" fill="#e2e8f0" font-size="15" font-weight="700">BEFORE (PR #579 Baseline)</text>
+<text x="384" y="157" fill="#94a3b8" font-size="12.5">PRO 5000 32K: 12,568 t/s • 5070Ti Spilled 16K: 5,286 t/s</text>
+<text x="948" y="140" fill="#e2e8f0" font-size="15" font-weight="700">AFTER (Wave 3 `1f818f7a`)</text>
+<text x="948" y="157" fill="#94a3b8" font-size="12.5">PRO 5000 32K: 12,987 t/s (+3.3%) • 5070Ti 16K: 7,114 t/s (+34.6%)</text>
+<rect x="36" y="166" width="320" height="96" rx="10" fill="#112236" stroke="#38bdf8" stroke-width="2.2" filter="url(#focusGlow)"/>
+<text x="52" y="200" fill="#f1f5f9" font-size="15" font-weight="700">1. Host RAM &amp; PCIe Bus</text>
+<text x="52" y="222" fill="#94a3b8" font-size="12.5">Pinned DMA / HtoD-DtoH Overlap</text>
+<rect x="52" y="232" width="156" height="20" rx="5" fill="#090d16" stroke="#f59e0b" stroke-width="1"/><text x="61" y="246" fill="#f59e0b" font-size="10.5" font-weight="700">TARGETED BY COMMIT</text>
+<rect x="376" y="166" width="544" height="96" rx="10" fill="#31131b" stroke="#38bdf8" stroke-width="1.1"/>
+<rect x="392" y="180" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="180" width="70.9" height="12" rx="6" fill="#ef4444"/>
+<text x="904" y="191" text-anchor="end" fill="#f87171" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">18% Eff</text>
+<text x="392" y="218" fill="#f8fafc" font-size="14" font-weight="700">0.0% HtoD Overlap (1,357 ms Stall)</text>
+<text x="904" y="218" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Spilled 5070Ti]</text>
+<text x="392" y="242" fill="#cbd5e1" font-size="12.2">Synchronous layer staging + all-or-nothing PCIe copy on partial promo</text>
+<rect x="940" y="166" width="544" height="96" rx="10" fill="#0c2924" stroke="#f59e0b" stroke-width="2.2"/>
+<rect x="956" y="180" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="180" width="338.8" height="12" rx="6" fill="#10b981"/>
+<text x="1468" y="191" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">86% (+68pt)</text>
+<text x="956" y="218" fill="#f8fafc" font-size="14" font-weight="700">53.7% HtoD Hidden (-735 ms Stall!)</text>
+<text x="1468" y="218" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[+34.6% E2E]</text>
+<text x="956" y="242" fill="#cbd5e1" font-size="12.2">0-VRAM h2d_stream_ lookahead + DtoD (447 GB/s) + coalesced HtoD</text>
+<line x1="196" y1="262" x2="196" y2="274" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="274" width="320" height="96" rx="10" fill="#112236" stroke="#38bdf8" stroke-width="2.2" filter="url(#focusGlow)"/>
+<text x="52" y="308" fill="#f1f5f9" font-size="15" font-weight="700">2. Device Global VRAM</text>
+<text x="52" y="330" fill="#94a3b8" font-size="12.5">DRAM BW / Coalescing / Alignment</text>
+<rect x="52" y="340" width="156" height="20" rx="5" fill="#090d16" stroke="#f59e0b" stroke-width="1"/><text x="61" y="354" fill="#f59e0b" font-size="10.5" font-weight="700">TARGETED BY COMMIT</text>
+<rect x="376" y="274" width="544" height="96" rx="10" fill="#31131b" stroke="#38bdf8" stroke-width="1.1"/>
+<rect x="392" y="288" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="288" width="189.1" height="12" rx="6" fill="#ef4444"/>
+<text x="904" y="299" text-anchor="end" fill="#f87171" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">48% Eff</text>
+<text x="392" y="326" fill="#f8fafc" font-size="14" font-weight="700">ctrl_up_blend: 8-Row Stride (646 GB/s)</text>
+<text x="904" y="326" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Row-Stride]</text>
+<text x="392" y="350" fill="#cbd5e1" font-size="12.2">Each warp strided 8 rows × 9.2 KB apart; scalar moe_cpu_merge (2.67 us)</text>
+<rect x="940" y="274" width="544" height="96" rx="10" fill="#0c2924" stroke="#f59e0b" stroke-width="2.2"/>
+<rect x="956" y="288" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="288" width="370.4" height="12" rx="6" fill="#10b981"/>
+<text x="1468" y="299" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">94% (+46pt)</text>
+<text x="956" y="326" fill="#f8fafc" font-size="14" font-weight="700">1-Row 256B Sweep (1,493 GB/s, 2.31x!)</text>
+<text x="1468" y="326" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[2.31x Faster]</text>
+<text x="956" y="350" fill="#cbd5e1" font-size="12.2">SMEM-staged ctrl_up_blend (73.2 us) + float4/PDL merge (1.25 us, 2.14x)</text>
+<line x1="196" y1="370" x2="196" y2="382" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="382" width="320" height="96" rx="10" fill="#131c2e" stroke="#334155" stroke-width="1.2"/>
+<text x="52" y="416" fill="#f1f5f9" font-size="15" font-weight="700">3. L2 Cache &amp; Tile Locality</text>
+<text x="52" y="438" fill="#94a3b8" font-size="12.5">Hit Rate / 2D &amp; LPT Swizzle</text>
+<rect x="376" y="382" width="544" height="96" rx="10" fill="#2b2110" stroke="#26334d" stroke-width="1.1"/>
+<rect x="392" y="396" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="396" width="291.6" height="12" rx="6" fill="#f59e0b"/>
+<text x="904" y="407" text-anchor="end" fill="#fbbf24" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">74% Eff</text>
+<text x="392" y="434" fill="#f8fafc" font-size="14" font-weight="700">Sequential Head Order in FlashAttn</text>
+<text x="904" y="434" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Tail Wave]</text>
+<text x="392" y="458" fill="#cbd5e1" font-size="12.2">Long-history causal CTAs scheduled late -&gt; 32K tail wave stragglers</text>
+<rect x="940" y="382" width="544" height="96" rx="10" fill="#0c2924" stroke="#26334d" stroke-width="1.1"/>
+<rect x="956" y="396" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="396" width="354.6" height="12" rx="6" fill="#10b981"/>
+<text x="1468" y="407" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">90% (+16pt)</text>
+<text x="956" y="434" fill="#f8fafc" font-size="14" font-weight="700">L2-Aware LPT CTA Scheduling</text>
+<text x="1468" y="434" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Balanced]</text>
+<text x="956" y="458" fill="#cbd5e1" font-size="12.2">Longest-history query tiles launched first across KV heads</text>
+<line x1="196" y1="478" x2="196" y2="490" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="490" width="320" height="96" rx="10" fill="#112236" stroke="#38bdf8" stroke-width="2.2" filter="url(#focusGlow)"/>
+<text x="52" y="524" fill="#f1f5f9" font-size="15" font-weight="700">4. L1 Cache &amp; Shared Memory</text>
+<text x="52" y="546" fill="#94a3b8" font-size="12.5">Discrete Carveout / Bank-Free %</text>
+<rect x="52" y="556" width="156" height="20" rx="5" fill="#090d16" stroke="#f59e0b" stroke-width="1"/><text x="61" y="570" fill="#f59e0b" font-size="10.5" font-weight="700">TARGETED BY COMMIT</text>
+<rect x="376" y="490" width="544" height="96" rx="10" fill="#31131b" stroke="#38bdf8" stroke-width="1.1"/>
+<rect x="392" y="504" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="504" width="204.9" height="12" rx="6" fill="#ef4444"/>
+<text x="904" y="515" text-anchor="end" fill="#f87171" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">52% Eff</text>
+<text x="392" y="542" fill="#f8fafc" font-size="14" font-weight="700">2-Stage Far KV • Sync Router (288 Bars)</text>
+<text x="904" y="542" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Pipeline Stall]</text>
+<text x="392" y="566" fill="#cbd5e1" font-size="12.2">2 barriers/tile in attn_prompt; naive FD_K=16 outer loop in router</text>
+<rect x="940" y="490" width="544" height="96" rx="10" fill="#0c2924" stroke="#f59e0b" stroke-width="2.2"/>
+<rect x="956" y="504" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="504" width="358.5" height="12" rx="6" fill="#10b981"/>
+<text x="1468" y="515" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">91% (+39pt)</text>
+<text x="956" y="542" fill="#f8fafc" font-size="14" font-weight="700">1-Barrier 4-Stage KV + 3-Stage Router</text>
+<text x="1468" y="542" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[5.56x Router]</text>
+<text x="956" y="566" fill="#cbd5e1" font-size="12.2">68 KiB union Smem 4-stage cp.async; bank-free LDS.128 router (5.56x!)</text>
+<line x1="196" y1="586" x2="196" y2="598" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="598" width="320" height="96" rx="10" fill="#131c2e" stroke="#334155" stroke-width="1.2"/>
+<text x="52" y="632" fill="#f1f5f9" font-size="15" font-weight="700">5. Register File &amp; Occupancy</text>
+<text x="52" y="654" fill="#94a3b8" font-size="12.5">Regs/Thread / Spills / Launch Eff</text>
+<rect x="376" y="598" width="544" height="96" rx="10" fill="#0c2924" stroke="#26334d" stroke-width="1.1"/>
+<rect x="392" y="612" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="612" width="323.1" height="12" rx="6" fill="#10b981"/>
+<text x="904" y="623" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">82% Eff</text>
+<text x="392" y="650" fill="#f8fafc" font-size="14" font-weight="700">2-CTA 64×64 Q8 TMA (168 Regs, 0 Spill)</text>
+<text x="904" y="650" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Tile Width]</text>
+<text x="392" y="674" fill="#cbd5e1" font-size="12.2">Good for narrow shapes, but reloads activations 2x on [8664×2304]</text>
+<rect x="940" y="598" width="544" height="96" rx="10" fill="#0c2924" stroke="#26334d" stroke-width="1.1"/>
+<rect x="956" y="612" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="612" width="366.4" height="12" rx="6" fill="#10b981"/>
+<text x="1468" y="623" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">93% (+11pt)</text>
+<text x="956" y="650" fill="#f8fafc" font-size="14" font-weight="700">16-Warp 128×128 TMA (128 Regs = 100% RF)</text>
+<text x="1468" y="650" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[0 B Spill]</text>
+<text x="956" y="674" fill="#cbd5e1" font-size="12.2">4 warps/sub-partition on sm_120 + PDL NPRE=1 weight preload on MMVQ</text>
+<line x1="196" y1="694" x2="196" y2="706" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="706" width="320" height="96" rx="10" fill="#112236" stroke="#38bdf8" stroke-width="2.2" filter="url(#focusGlow)"/>
+<text x="52" y="740" fill="#f1f5f9" font-size="15" font-weight="700">6. Warp SIMT &amp; Schedulers</text>
+<text x="52" y="762" fill="#94a3b8" font-size="12.5">Active Mask / Branchless vs if-else</text>
+<rect x="52" y="772" width="156" height="20" rx="5" fill="#090d16" stroke="#f59e0b" stroke-width="1"/><text x="61" y="786" fill="#f59e0b" font-size="10.5" font-weight="700">TARGETED BY COMMIT</text>
+<rect x="376" y="706" width="544" height="96" rx="10" fill="#2b2110" stroke="#38bdf8" stroke-width="1.1"/>
+<rect x="392" y="720" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="720" width="228.5" height="12" rx="6" fill="#f59e0b"/>
+<text x="904" y="731" text-anchor="end" fill="#fbbf24" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">58% Eff</text>
+<text x="392" y="758" fill="#f8fafc" font-size="14" font-weight="700">Inner-Loop int64 % cap + Per-Key Mask</text>
+<text x="904" y="758" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[ALU/Branch]</text>
+<text x="392" y="782" fill="#cbd5e1" font-size="12.2">64-bit modulo &amp; fresh/ok branches inside every 16B cp.async piece</text>
+<rect x="940" y="706" width="544" height="96" rx="10" fill="#0c2924" stroke="#f59e0b" stroke-width="2.2"/>
+<rect x="956" y="720" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="720" width="370.4" height="12" rx="6" fill="#10b981"/>
+<text x="1468" y="731" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">94% (+36pt)</text>
+<text x="956" y="758" fill="#f8fafc" font-size="14" font-weight="700">Tile-Hoisted uint32 Slot + Branchless Far</text>
+<text x="1468" y="758" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[+26.1% @ 32K]</text>
+<text x="956" y="782" fill="#cbd5e1" font-size="12.2">Zero inner-loop modulo; branchless whole-tile softmax on far prefix</text>
+<line x1="196" y1="802" x2="196" y2="814" stroke="#334155" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="36" y="814" width="320" height="96" rx="10" fill="#112236" stroke="#38bdf8" stroke-width="2.2" filter="url(#focusGlow)"/>
+<text x="52" y="848" fill="#f1f5f9" font-size="15" font-weight="700">7. Tensor Cores, ALU &amp; SFU</text>
+<text x="52" y="870" fill="#94a3b8" font-size="12.5">Dtype &amp; M×N×K Tile / GEMM Eff %</text>
+<rect x="52" y="880" width="156" height="20" rx="5" fill="#090d16" stroke="#f59e0b" stroke-width="1"/><text x="61" y="894" fill="#f59e0b" font-size="10.5" font-weight="700">TARGETED BY COMMIT</text>
+<rect x="376" y="814" width="544" height="96" rx="10" fill="#2b2110" stroke="#38bdf8" stroke-width="1.1"/>
+<rect x="392" y="828" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="392" y="828" width="311.3" height="12" rx="6" fill="#f59e0b"/>
+<text x="904" y="839" text-anchor="end" fill="#fbbf24" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">79% Eff</text>
+<text x="392" y="866" fill="#f8fafc" font-size="14" font-weight="700">Q8 TMA: 232 TOP/s • Router: 4.4 TFLOP/s</text>
+<text x="904" y="866" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[TC/SIMT]</text>
+<text x="392" y="890" fill="#cbd5e1" font-size="12.2">Attention 32K: 130.5 TFLOP/s; Q8 quantizer scalar warp loop (40.1 us)</text>
+<rect x="940" y="814" width="544" height="96" rx="10" fill="#0c2924" stroke="#f59e0b" stroke-width="2.2"/>
+<rect x="956" y="828" width="394" height="12" rx="6" fill="#090d16"/>
+<rect x="956" y="828" width="358.5" height="12" rx="6" fill="#10b981"/>
+<text x="1468" y="839" text-anchor="end" fill="#34d399" font-size="14.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">91% (+12pt)</text>
+<text x="956" y="866" fill="#f8fafc" font-size="14" font-weight="700">Q8 TMA: 249.2 TOP/s • Attn: 164.5 TFLOP/s</text>
+<text x="1468" y="866" text-anchor="end" fill="#cbd5e1" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">[Bitwise Exact]</text>
+<text x="956" y="890" fill="#cbd5e1" font-size="12.2">Router: 97.2 us (24.5 TFLOP/s FP32) • vec4 Q8 quantizer: 11.8 us (3.4x)</text>
+<rect x="36" y="930" width="1448" height="140" rx="10" fill="#131c2e" stroke="#334155" stroke-width="1.2"/>
+<text x="54" y="956" fill="#fcd34d" font-size="13.2" font-weight="700">BOTTLENECKS TARGETED &amp; RESOLVED BY THIS PR (Ranked by Baseline Impact):</text>
+<text x="54" y="980" fill="#e2e8f0" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">#1 [Baseline | 1. Host RAM &amp; PCIe Bus] (18% eff, 46% wt): 1,357 ms synchronous PCIe HtoD stall (0% overlap) + redundant RAM copies -&gt; h2d_stream_ + exp_done/h2d_done lookahead + DtoD for promoted slots (+34.6% E2E)</text>
+<text x="54" y="1008" fill="#e2e8f0" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">#2 [Baseline | 4. L1 Cache &amp; Shared Memory] (52% eff, 18% wt): 2-barrier KV loop &amp; 288-barrier synchronous router GEMM stall warps -&gt; 1-barrier 4-stage cp.async KV ring + 3-stage bank-free LDS.128 router (5.56x)</text>
+<text x="54" y="1036" fill="#e2e8f0" font-size="11.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">#3 [Baseline | 6. Warp SIMT &amp; Schedulers] (58% eff, 15% wt): Per-piece int64 % cap division &amp; mask branches inside FlashAttn inner loop -&gt; Hoist uint32 slot wrap to tile header + branchless whole-tile far softmax (+...</text>
+<text x="36" y="1106" fill="#64748b" font-size="12">Highlighted Cyan/Gold nodes indicate exact GPU hierarchy bottlenecks targeted by this PR • 100% Bitwise Parity Verified</text>
+</svg>
